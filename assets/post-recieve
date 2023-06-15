@@ -1,0 +1,40 @@
+#!/bin/sh
+# stagit setup helper - developed by acidevegas (https://git.acid.vegas/stagit)
+# sudo apt-get install libgit2-1.1  libmd4c*
+
+BASE_URL="https://git.acid.vegas"
+CLONE_URL="git://git.acid.vegas"
+HTML_DIR="/home/acidvegas/dev/html/stagit/out"
+REPOS="$(find $HOME/dev/git -type d -name mirror -prune -o -type d -name .git -print | sort | xargs echo)"
+
+mkdir -p $HTML_DIR
+cp favicon.png logo.png style.css $HTML_DIR
+for dir in $(echo $REPOS); do
+	OWNER=$(basename $(dirname $(dirname $dir)))
+	REPO=$(basename $(dirname $dir))
+	if [ -f $dir/description ]; then
+		REPO_DESC=$(cat $dir/description)
+		if [ "$REPO_DESC" = "Unnamed repository; edit this file 'description' to name the repository." ]; then
+			nano $dir/description
+			echo "[+] updated default 'description' file for '$REPO'"
+		fi
+	else
+		nano $dir/description
+		echo "[+] added missing 'description' file for '$REPO'"
+	fi
+	if [ ! -f $dir/owner ]; then
+		echo $OWNER > $dir/owner
+		echo "[+] added missing 'owner' file for '$REPO'"
+	fi
+	if [ ! -f $dir/url ]; then
+        echo "$CLONE_URL/$REPO.git" > $dir/url
+		echo "[+] added missing 'url' file for '$REPO'"
+	fi
+	echo "[~] processing '$REPO' repository..."
+	mkdir -p $HTML_DIR/$REPO && cd $HTML_DIR/$REPO && stagit -c ".cache" -u "$BASE_URL/$REPO" $dir
+	ln -sf log.html index.html && ln -sf ../style.css style.css && ln -sf ../logo.png logo.png && ln -sf ../favicon.png favicon.png
+	git --git-dir $dir archive HEAD -o "$HTML_DIR/$REPO/$REPO.zip" # TODO: can we do this with libgit2?
+done
+echo "[~] creating index..."
+stagit-index "$REPOS" > $HTML_DIR/index.html
+echo "[+] finished"

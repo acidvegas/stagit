@@ -1,0 +1,62 @@
+#!/bin/sh
+# stagit setup helper - developed by acidevegas (https://git.acid.vegas/stagit)
+# sudo apt-get install libgit2-1.1  libmd4c*
+
+URL="git.acid.vegas"
+PROTO="https"
+CLONE_URL="git://$URL"
+COMMIT_LIMIT=100
+HTML_DIR="$HOME/dev/git/acidvegas/git.acid.vegas"
+REPOS_DIR="$HOME/dev/git"
+REPO_EXCLUDE="git.acid.vegas"
+REPOS="$(find $REPOS_DIR -type d -name mirror -prune -o -type d -name $REPO_EXCLUDE -prune -o -type d -name .git -printf "%h\\n " | sort | xargs echo)"
+
+prepair() {
+	[ -d $HTML_DIR ] && rm -rf $HTML_DIR/*
+	mkdir -p $HTML_DIR/assets
+	cp acidvegas.png favicon.png logo.png mostdangerous.png style.css $HTML_DIR/assets
+	echo $URL > $HTML_DIR/CNAME
+}
+
+make_index() {
+	echo "[~] creating index..."
+	args=""
+	for dir in $(ls $REPOS_DIR | grep -v 'mirror'); do
+		echo "[~] indexing '$dir' repositories..."
+		DIR_REPOS="$(find $REPOS_DIR/$dir -type d -name mirror -prune -o -type d -name $REPO_EXCLUDE -prune -o -type d -name .git -printf "%h\\n " | sort | xargs echo)"
+		args="$args -c \"$dir\" $DIR_REPOS"
+	done
+    echo "$args" | xargs stagit-index > $HTML_DIR/index.html
+	echo "[+] finished"
+}
+
+make_repos() {
+	for dir in $(echo $REPOS); do
+		USER=$(basename $(dirname $dir))
+		REPO=$(basename $dir)
+		if [ -f $dir/.git/description ]; then
+			if [ "$(cat $dir/.git/description)" = "Unnamed repository; edit this file 'description' to name the repository." ]; then
+				read -p "description for '$USER/$REPO':" desc
+				echo "$desc" > $dir/.git/description
+				echo "[+] updated default 'description' file for '$REPO'"
+			fi
+		else
+			read -p "description for '$USER/$REPO':" desc
+			echo "$desc" > $dir/.git/description
+			echo "[+] added missing 'description' file for '$REPO'"
+		fi
+		if [ ! -f $dir/.git/url ]; then
+	        echo "$CLONE_URL/$REPO.git" > $dir/.git/url
+			echo "[+] added missing 'url' file for '$REPO'"
+		fi
+		echo "[~] processing '$REPO' repository..."
+		mkdir -p $HTML_DIR/$REPO && cd $HTML_DIR/$REPO && stagit -l $COMMIT_LIMIT -u "$PROTO://$URL/$REPO" $dir
+		ln -sf log.html index.html
+		#git --git-dir $dir/.git archive --format=tar.gz -o "$HTML_DIR/$REPO/$REPO.tar.gz" --prefix="$REPO/" HEAD
+	done
+}
+
+# Main
+prepair
+make_repos
+make_index
