@@ -3,8 +3,9 @@ a{color:#8dc;text-decoration:none}
 a:hover{color:#8dc}
 a:target {background-color:#222;}
 body{background-color:#000;color:#bdbdbd;font-size:14px;}
-code{background-color:#333;border-radius:5px;color:#fff;padding-bottom:2px;padding-left:5px;padding-right:5px;padding-top:2px}
+code{background-color:#222;border:1px solid #444;border-radius:5px;color:#fff;display:inline-block;margin:0;padding-left:10px;padding-right:10px;}
 h1{display:inline;}
+hr{border:1px solid #222}
 table thead td{font-weight:bold;}
 table td{padding:0 0.3em;}
 table tr{margin:0px;}
@@ -40,4 +41,4 @@ img, h1, h2{vertical-align middle;}
 .md table td, .md table th{padding:0.25em 1em;border:1px solid var(--border);}
 pre a.h{color:#00cdcd;}
 pre a.h:hover, pre a.i:hover, pre a.d:hover{text-decoration:none;}
-pre:not(#readme){overflow-x:auto;border:1px solid var(--code-border);border-radius:4px;}
+pre:not(#readme){overflow-x:auto;border:1px solid var(--code-border);border-radius:4px;padding: 10px;}
