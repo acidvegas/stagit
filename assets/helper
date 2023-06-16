@@ -8,8 +8,15 @@ CLONE_URL="git://$URL"
 COMMIT_LIMIT=100
 HTML_DIR="$HOME/dev/git/acidvegas/git.acid.vegas"
 REPOS_DIR="$HOME/dev/git"
-REPO_EXCLUDE="git.acid.vegas"
-REPOS="$(find $REPOS_DIR -type d -name mirror -prune -o -type d -name $REPO_EXCLUDE -prune -o -type d -name .git -printf "%h\\n " | sort | xargs echo)"
+REPOS_EXCLUDE="git.acid.vegas mirror readme"
+
+find_repos() {
+	args=""
+	for dir in $REPOS_EXCLUDE; do
+		args="$args -type d -name $dir -prune -o"
+	done
+	echo "$(find $1 $args -type d -name .git -printf "%h\\n " | sort | xargs echo)"
+}
 
 prepair() {
 	[ -d $HTML_DIR ] && rm -rf $HTML_DIR/*
@@ -23,7 +30,7 @@ make_index() {
 	args=""
 	for dir in $(ls $REPOS_DIR | grep -v 'mirror'); do
 		echo "[~] indexing '$dir' repositories..."
-		DIR_REPOS="$(find $REPOS_DIR/$dir -type d -name mirror -prune -o -type d -name $REPO_EXCLUDE -prune -o -type d -name .git -printf "%h\\n " | sort | xargs echo)"
+		DIR_REPOS="$(find_repos $REPOS_DIR/$dir)"
 		args="$args -c \"$dir\" $DIR_REPOS"
 	done
     echo "$args" | xargs stagit-index > $HTML_DIR/index.html
@@ -31,7 +38,7 @@ make_index() {
 }
 
 make_repos() {
-	for dir in $(echo $REPOS); do
+	for dir in $(find_repos $REPOS_DIR); do
 		USER=$(basename $(dirname $dir))
 		REPO=$(basename $dir)
 		if [ -f $dir/.git/description ]; then
