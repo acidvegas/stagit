@@ -19,11 +19,12 @@ sudo make install
 ```
 
 ###### New Features
-- Markdown rendering to HTML for README files
-- Syntax hilighting
-- Repository categories
-- Direct download to repository tar.gz
-- Style changes
+- [X] Markdown rendering to HTML for README files
+- [ ] Syntax hilighting
+- [X] Repository categories
+- [ ] Direct download to repository tar.gz
+- [X] Style changes
+- [ ] Raw file viewing
 
 ###### Props
 - Hiltjo Posthuma *(orignal author of [stagit](https://codemadness.org/git/stagit/))*
