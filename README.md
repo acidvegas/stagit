@@ -26,6 +26,11 @@ sudo make install
 - [X] Style changes
 - [ ] Raw file viewing
 
+###### Fixes
+- [ ] Clickable heading *(h1-h6)* links in README *(md4c does not FULLY transform markdown)*
+- [ ] Top/bottom padding for multi-lined `<code>` blocks 
+- [ ] Missing image references in README files *(md4c does not look in /files/ for the .screens directory)*
+
 ###### Props
 - Hiltjo Posthuma *(orignal author of [stagit](https://codemadness.org/git/stagit/))*
 - Larry Burns *([stagit-md](https://github.com/lmburns/stagit-md))*
