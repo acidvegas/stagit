@@ -3,6 +3,7 @@ a{color:#8dc;text-decoration:none}
 a:hover{color:#8dc}
 a:target {background-color:#222;}
 body{background-color:#000;color:#bdbdbd;font-size:14px;}
+code{background-color:#333;border-radius:5px;color:#fff;padding-bottom:2px;padding-left:5px;padding-right:5px;padding-top:2px}
 h1{display:inline;}
 table thead td{font-weight:bold;}
 table td{padding:0 0.3em;}
