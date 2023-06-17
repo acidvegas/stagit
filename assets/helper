@@ -21,6 +21,7 @@ find_repos() {
 prepair() {
 	[ -d $HTML_DIR ] && rm -rf $HTML_DIR/*
 	mkdir -p $HTML_DIR/assets
+	echo "[~] populating custom assets..."
 	cp acidvegas.png favicon.png logo.png mostdangerous.png style.css $HTML_DIR/assets
 	echo $URL > $HTML_DIR/CNAME
 }
@@ -59,7 +60,7 @@ make_repos() {
 		echo "[~] processing '$REPO' repository..."
 		mkdir -p $HTML_DIR/$REPO && cd $HTML_DIR/$REPO && stagit -l $COMMIT_LIMIT -u "$PROTO://$URL/$REPO" $dir
 		ln -sf log.html index.html
-		#git --git-dir $dir/.git archive --format=tar.gz -o "$HTML_DIR/$REPO/$REPO.tar.gz" --prefix="$REPO/" HEAD
+		git --git-dir $dir/.git archive --format=tar.gz -o "$HTML_DIR/$REPO/$REPO.tar.gz" --prefix="$REPO/" HEAD
 	done
 }
 

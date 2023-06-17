@@ -495,14 +495,12 @@ void writeheader(FILE *fp, const char *title) {
 	fprintf(fp, "<a href=\"%sfiles.html\">Files</a> | ", relpath);
 	fprintf(fp, "<a href=\"%srefs.html\">Refs</a>", relpath);
 	if (submodules)
-		fprintf(fp, " | <a href=\"%sfile/%s.html\">Submodules</a>",
-		        relpath, submodules);
+		fprintf(fp, " | <a href=\"%sfile/%s.html\">Submodules</a>", relpath, submodules);
 	if (readme)
 		//fprintf(fp, " | <a href=\"%sfile/%s.html\">README</a>", relpath, readme);
 		fprintf(fp, " | <a href=\"%sREADME.html\">README</a>", relpath);
 	if (license)
-		fprintf(fp, " | <a href=\"%sfile/%s.html\">LICENSE</a>",
-		        relpath, license);
+		fprintf(fp, " | <a href=\"%sfile/%s.html\">LICENSE</a>", relpath, license);
 	fputs("</td></tr>\n\t</table>\n</div>\n<br>\n", fp);
 }
 
