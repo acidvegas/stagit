@@ -6,7 +6,7 @@ This is my personal fork of [stagit](https://codemadness.org/stagit.html) which 
 
 ## Dependencies
 - C compiler *(C99)*
-- libc *(tested with OpenBSD, FreeBSD, NetBSD, Linux: glibc and musl)*
+- libc *(tested with OpenBSD, FreeBSD, NetBSD, Linux: glibc & musl)*
 - [libgit2](https://github.com/libgit2/libgit2) *(v0.22+)*
 - [md4c](https://github.com/mity/md4c) *(v0.4.4+)* 
 - POSIX make *(optional)*
