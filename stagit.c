@@ -493,7 +493,8 @@ void writeheader(FILE *fp, const char *title) {
 	fputs("\t\t<tr><td>\n", fp);
 	fprintf(fp, "<a href=\"%slog.html\">Log</a> | ", relpath);
 	fprintf(fp, "<a href=\"%sfiles.html\">Files</a> | ", relpath);
-	fprintf(fp, "<a href=\"%srefs.html\">Refs</a>", relpath);
+	fprintf(fp, "<a href=\"%srefs.html\">Refs</a> | ", relpath);
+	fprintf(fp, "<a href=\"%sarchive.tar.gz\">Archive</a>", relpath);
 	if (submodules)
 		fprintf(fp, " | <a href=\"%sfile/%s.html\">Submodules</a>", relpath, submodules);
 	if (readme)
@@ -501,6 +502,7 @@ void writeheader(FILE *fp, const char *title) {
 		fprintf(fp, " | <a href=\"%sREADME.html\">README</a>", relpath);
 	if (license)
 		fprintf(fp, " | <a href=\"%sfile/%s.html\">LICENSE</a>", relpath, license);
+
 	fputs("</td></tr>\n\t</table>\n</div>\n<br>\n", fp);
 }
 

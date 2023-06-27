@@ -11,4 +11,4 @@ DIR=$PWD
 REPO=$(basename $DIR .git)
 mkdir -p $HTML_DIR/$REPO && cd $HTML_DIR/$REPO && stagit -l $COMMIT_LIMIT -u "$PROTO://$URL/$REPO" $DIR
 ln -sf log.html index.html
-git --git-dir $DIR archive --format=tar.gz -o "$HTML_DIR/$REPO/$REPO.tar.gz" --prefix="$REPO/" HEAD
+git --git-dir $DIR archive --format=tar.gz -o "$HTML_DIR/$REPO/$archive.tar.gz" --prefix="$REPO/" HEAD

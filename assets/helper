@@ -61,7 +61,7 @@ make_repos() {
 		echo "[~] processing '$REPO' repository..."
 		mkdir -p $HTML_DIR/$REPO && cd $HTML_DIR/$REPO && stagit -l $COMMIT_LIMIT -u "$PROTO://$URL/$REPO" $dir
 		ln -sf log.html index.html
-		git --git-dir $dir/.git archive --format=tar.gz -o "$HTML_DIR/$REPO/$REPO.tar.gz" --prefix="$REPO/" HEAD
+		git --git-dir $dir/.git archive --format=tar.gz -o "$HTML_DIR/$REPO/archive.tar.gz" --prefix="$REPO/" HEAD
 	done
 }
 
