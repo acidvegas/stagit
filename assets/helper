@@ -1,6 +1,7 @@
 #!/bin/sh
 # stagit setup helper - developed by acidevegas (https://git.acid.vegas/stagit)
-# sudo apt-get install libgit2-1.1  libmd4c*
+# debian : sudo apt-get install libgit2-1.1  libmd4c*
+# arch   : sudo pacman -S libgit2 md4c
 
 URL="git.acid.vegas"
 PROTO="https"
