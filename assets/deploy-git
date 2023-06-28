@@ -1,0 +1,13 @@
+#!/bin/sh
+# git deployment for stagit - developed by acidvegas (https://git.acid.vegas/stagit)
+[ ! $(grep -q /usr/bin/git-shell /etc/shells) ] && echo "/usr/bin/git-shell" >> /etc/shells
+[ ! $(getent passwd git)                      ] && userdel -f git
+useradd -d /srv/git -k /dev/null -m -s /usr/bin/git-shell -U git
+mkdir -p /srv/git/git-shell-commands
+# wget git-shells-command repo script
+chmod +x /srv/git/git-shell-commands/* && chown -R git:git /srv/git/git-shell-commands
+usermod -p '*' git
+echo -e "[Unit]\nDescription=Start Git Daemon\n\n[Service]\nExecStart=/usr/bin/git daemon --reuseaddr --base-path=/srv/git/ /srv/git/\n\nRestart=always\nRestartSec=500ms\nUser=git\nGroup=git\n\n[Install]\nWantedBy=multi-user.target" > /etc/systemd/system/git-daemon.service
+systemctl start git-daemon && systemctl enable git-daemon
+echo "Be sure to use 'AuthorizedKeysFile /etc/ssh/authorized_keys/%u' in your /etc/ssh/sshd_config"
+echo "Add your public key to /etc/ssh/authorized_keys/git prefixed with 'no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty'"
