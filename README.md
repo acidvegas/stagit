@@ -18,13 +18,15 @@ make
 sudo make install
 ```
 
+**NOTE**: The [/assets/](https://github.com/acidvegas/stagit/tree/master/assets) directory contains various scripts for deployment usage.
+
 ###### New Features
 - [X] Markdown rendering to HTML for README files
 - [ ] Syntax hilighting
 - [X] Repository categories
-- [ ] Direct download to repository tar.gz
+- [X] Direct download to repository tar.gz
 - [X] Style changes
-- [ ] Raw file viewing
+- [ ] Raw file viewing *(will tackle this one next commit)*
 
 ###### Fixes
 - [ ] Clickable heading *(h1-h6)* links in README *(md4c does not FULLY transform markdown)*
