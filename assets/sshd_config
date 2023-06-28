@@ -1,0 +1,18 @@
+AuthenticationMethods publickey
+AuthorizedKeysFile /etc/ssh/authorized_keys/%u
+Banner /etc/issue
+ChallengeResponseAuthentication no
+ClientAliveInterval 0
+DisableForwarding yes
+PasswordAuthentication no
+PermitRootLogin no
+Port CHANGEME
+Port 22
+PrintLastLog no
+Protocol 2
+
+Match LocalPort 22
+	AllowUsers git
+
+Match LocalPort CHANGEME
+	AllowUsers acidvegas
