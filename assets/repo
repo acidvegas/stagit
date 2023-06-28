@@ -1,0 +1,14 @@
+#!/bin/sh
+# git-shell-commands helper for stagit - developed by acidvegas (https://git.acid.vegas/stagit)
+[ ! "$#" = '1' ] && echo "invlid arguments (use -c or -d)" && exit 1
+if [ $1 = '-c' ]; then
+	[ -d $2.git         ] && echo "repository already exists" && exit 1
+	[ ! -f post-receive ] && "missing post-receive script"    && exit 1
+	mkdir $2.git && git init --bare $2.git
+	touch $2.git/git-daemon-export-ok
+	ln post-recieve $2.git/hooks/post-recieve
+	echo "git://git.acid.vegas/$1.git" > $2.git/url
+elif [ $1 = '-d' ]; then
+	[ ! -d $2.git ] && echo "repository does not exist" && exit 1
+	rm -rf $2.git
+fi
