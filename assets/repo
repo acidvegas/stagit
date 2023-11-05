@@ -6,9 +6,11 @@ if [ $1 = '-c' ]; then
 	[ ! -f post-receive ] && "missing post-receive script"    && exit 1
 	mkdir $2.git && git init --bare $2.git
 	touch $2.git/git-daemon-export-ok
-	ln post-recieve $2.git/hooks/post-recieve
-	echo "git://git.acid.vegas/$1.git" > $2.git/url
+	ln /srv/git/git-shell-commands/post-receive $2.git/hooks/post-receive
+	echo "git://git.acid.vegas/$2.git" > $2.git/url
 elif [ $1 = '-d' ]; then
 	[ ! -d $2.git ] && echo "repository does not exist" && exit 1
 	rm -rf $2.git
+else
+	echo "invlid arguments (use -c or -d)" && exit 1
 fi

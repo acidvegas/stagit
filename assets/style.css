@@ -28,7 +28,7 @@ td.num{text-align:right;}
 
 a.d, a.h, a.i, a.line {text-decoration:none;}
 h1, h2, h3, h4, h5, h6{font-size:1em;margin:0;}
-img, h1, h2{vertical-align middle;}
+img, h1, h2{vertical-align: middle;}
 #branches tr td:nth-child(3),
 #branches tr:hover td, #tags tr:hover td{background-color:#111;}
 #tags tr td:nth-child(3){white-space:normal;}

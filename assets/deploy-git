@@ -1,5 +1,4 @@
 #!/bin/sh
-# git deployment for stagit - developed by acidvegas (https://git.acid.vegas/stagit)
 [ ! $(grep -q /usr/bin/git-shell /etc/shells) ] && echo "/usr/bin/git-shell" >> /etc/shells
 [ ! $(getent passwd git)                      ] && userdel -f git
 useradd -d /srv/git -k /dev/null -m -s /usr/bin/git-shell -U git
@@ -11,3 +10,12 @@ echo -e "[Unit]\nDescription=Start Git Daemon\n\n[Service]\nExecStart=/usr/bin/g
 systemctl start git-daemon && systemctl enable git-daemon
 echo "Be sure to use 'AuthorizedKeysFile /etc/ssh/authorized_keys/%u' in your /etc/ssh/sshd_config"
 echo "Add your public key to /etc/ssh/authorized_keys/git prefixed with 'no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty'"
+sudo apt-get install libmd4c-dev libmd4c-html0 libmd4c-html0-dev libmd4c0
+sudo apt-get install libgit2-dev
+#STAGIT_CFLAGS += -DGIT_OPT_SET_OWNER_VALIDATION=-1
+Makefile uncomment
+sudo certbot --nginx -d example.com -d www.example.com
+
+
+sudo git config --system init.defaultBranch main
+^^^^^^ THIS MOTHER FGCKER
