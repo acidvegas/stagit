@@ -7,8 +7,18 @@ CLONE_URL="git://$URL"
 COMMIT_LIMIT=100
 HTML_DIR="/srv/http"
 
-DIR=$PWD
-REPO=$(basename $DIR .git)
-mkdir -p $HTML_DIR/$REPO && cd $HTML_DIR/$REPO && stagit -l $COMMIT_LIMIT -u "$PROTO://$URL/$REPO" $DIR
-ln -sf log.html index.html
-git --git-dir $DIR archive --format=tar.gz -o "$HTML_DIR/$REPO/archive.tar.gz" --prefix="$REPO/" HEAD
+DIR="$PWD"
+REPO=$(basename "$DIR" .git)
+
+command -v stagit >/dev/null 2>&1 || { echo "stagit not found" >&2; exit 1; }
+
+mkdir -p "$HTML_DIR/$REPO" || { echo "Failed to create directory $HTML_DIR/$REPO" >&2; exit 1; }
+
+if cd "$HTML_DIR/$REPO"; then
+  stagit -l "$COMMIT_LIMIT" -u "$PROTO://$URL/$REPO" "$DIR" || { echo "stagit failed to generate static pages" >&2; exit 1; }
+  ln -sf log.html index.html
+  git --git-dir="$DIR" archive --format=tar.gz -o "$HTML_DIR/$REPO/archive.tar.gz" --prefix="$REPO/" HEAD || { echo "git archive failed" >&2; exit 1; }
+else
+  echo "Failed to change directory to $HTML_DIR/$REPO" >&2
+  exit 1
+fi

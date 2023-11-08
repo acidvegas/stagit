@@ -1,16 +1,31 @@
 #!/bin/sh
 # git-shell-commands helper for stagit - developed by acidvegas (https://git.acid.vegas/stagit)
-[ ! "$#" = '1' ] && echo "invlid arguments (use -c or -d)" && exit 1
-if [ $1 = '-c' ]; then
-	[ -d $2.git         ] && echo "repository already exists" && exit 1
-	[ ! -f post-receive ] && "missing post-receive script"    && exit 1
-	mkdir $2.git && git init --bare $2.git
-	touch $2.git/git-daemon-export-ok
-	ln /srv/git/git-shell-commands/post-receive $2.git/hooks/post-receive
-	echo "git://git.acid.vegas/$2.git" > $2.git/url
-elif [ $1 = '-d' ]; then
-	[ ! -d $2.git ] && echo "repository does not exist" && exit 1
-	rm -rf $2.git
+
+if [ "$#" -ne 2 ]; then
+	echo "invalid arguments (use -c or -d)" >&2
+	exit 1
+fi
+
+if [ "$1" = '-c' ]; then
+	if [ -d "$2.git" ]; then
+		echo "repository already exists" >&2
+		exit 1
+	fi
+	if [ ! -f post-receive ]; then
+		echo "missing post-receive script" >&2
+		exit 1
+	fi
+	mkdir "$2.git" && git init --bare "$2.git" || exit 1
+	touch "$2.git/git-daemon-export-ok"
+	ln /srv/git/git-shell-commands/post-receive "$2.git/hooks/post-receive" || exit 1
+	echo "git://git.acid.vegas/$2.git" > "$2.git/url"
+elif [ "$1" = '-d' ]; then
+	if [ ! -d "$2.git" ]; then
+		echo "repository does not exist" >&2
+		exit 1
+	fi
+	rm -rf "$2.git"
 else
-	echo "invlid arguments (use -c or -d)" && exit 1
+	echo "invalid arguments (use -c or -d)" >&2
+	exit 1
 fi

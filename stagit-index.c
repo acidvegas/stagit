@@ -83,7 +83,7 @@ void writeheader(FILE *fp) {
 	fputs("<center>\n<img src=\"/assets/acidvegas.png\"><br>\n<img src=\"/assets/mostdangerous.png\"><br><br>\n", fp);
 	fputs("<div class=\"container\">\n\t<center>\n\t<table>\n\t\t<tr><td>\n"
 		"<b>contact</b> : <a href=\"https://discord.gg/BCqRZZR\">discord</a> &bull; <a href=\"ircs://irc.supernets.org/superbowl\">irc</a> &bull; <a href=\"mailto://acid.vegas@acid.vegas\">mail</a> &bull; <a href=\"https://twitter.com/acidvegas\">twitter</a>\n"
-		"<br><b>mirrors</b> : <a href=\"https://github.com/acidvegas\">github</a> &bull; <a href=\"https://gitlab.com/acidvegas\">gitlab</a> &bull; <a href=\"https://git.sr.ht/~acidvegas\">sourcehut</a> &bull; <a href=\"https://git.supernets.org/acidvegas\">supernets</a>\n"
+		"<br><b>mirrors</b> : <a href=\"https://github.com/acidvegas\">github</a> &bull; <a href=\"https://gitlab.com/acidvegas\">gitlab</a> &bull; <a href=\"https://git.supernets.org/acidvegas\">supernets</a>\n"
         "\t\t</td></tr>\n\t</table>\n\t</center>\n</div>\n<br>\n", fp);
 	fputs("<div id=\"content\">\n\t<table id=\"index\">\n\t\t<thead>\n\t\t\t<tr><td>Name</td><td>Description</td><td>Last commit</td></tr>\n\t\t</thead>\n\t\t<tbody>", fp);
 }
