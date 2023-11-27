@@ -1,21 +1,32 @@
 #!/bin/sh
+
+apt-get install -y git
+
 [ ! $(grep -q /usr/bin/git-shell /etc/shells) ] && echo "/usr/bin/git-shell" >> /etc/shells
 [ ! $(getent passwd git)                      ] && userdel -f git
+
 useradd -d /srv/git -k /dev/null -m -s /usr/bin/git-shell -U git
-mkdir -p /srv/git/git-shell-commands
-# wget git-shells-command repo script
+
+mkdir -p /srv/git/git-shell-commands && wget -O /srv/git/git-shell-commands https://raw.githubusercontent.com/acidvegas/stagit/master/assets/repo
 chmod +x /srv/git/git-shell-commands/* && chown -R git:git /srv/git/git-shell-commands
+
 usermod -p '*' git
-echo -e "[Unit]\nDescription=Start Git Daemon\n\n[Service]\nExecStart=/usr/bin/git daemon --reuseaddr --base-path=/srv/git/ /srv/git/\n\nRestart=always\nRestartSec=500ms\nUser=git\nGroup=git\n\n[Install]\nWantedBy=multi-user.target" > /etc/systemd/system/git-daemon.service
+
+printf "[Unit]\nDescription=Start Git Daemon\n\n[Service]\nExecStart=/usr/bin/git daemon --reuseaddr --base-path=/srv/git/ /srv/git/\n\nRestart=always\nRestartSec=500ms\nUser=git\nGroup=git\n\n[Install]\nWantedBy=multi-user.target\n" > /etc/systemd/system/git-daemon.service
 systemctl start git-daemon && systemctl enable git-daemon
+
 echo "Be sure to use 'AuthorizedKeysFile /etc/ssh/authorized_keys/%u' in your /etc/ssh/sshd_config"
 echo "Add your public key to /etc/ssh/authorized_keys/git prefixed with 'no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty'"
-sudo apt-get install libmd4c-dev libmd4c-html0 libmd4c-html0-dev libmd4c0
-sudo apt-get install libgit2-dev
+
+apt-get install libmd4c-dev libmd4c-html0 libmd4c-html0-dev libmd4c0
+apt-get install libgit2-dev
+
+certbot --nginx -d example.com -d www.example.com
+
+git config --system init.defaultBranch main # <- THIS MOTHER FUCKER
+
+# Not finished yet
+git clone https://github.com/acidvegas/stagit
 #STAGIT_CFLAGS += -DGIT_OPT_SET_OWNER_VALIDATION=-1
 Makefile uncomment
-sudo certbot --nginx -d example.com -d www.example.com
 
-
-sudo git config --system init.defaultBranch main
-^^^^^^ THIS MOTHER FGCKER

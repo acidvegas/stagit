@@ -1,6 +1,5 @@
 AuthenticationMethods publickey
 AuthorizedKeysFile /etc/ssh/authorized_keys/%u
-Banner /etc/issue
 ClientAliveInterval 0
 DisableForwarding yes
 PermitRootLogin no
