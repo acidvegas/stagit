@@ -1,21 +1,25 @@
 #!/bin/sh
 # git-shell-commands helper for stagit - developed by acidvegas (https://git.acid.vegas/stagit)
 
-check_description() {
-	if [ -f $1/description ]; then
-		if [ "$(cat $1/description)" = "Unnamed repository; edit this file 'description' to name the repository." ]; then
-			read -p "description for '$REPO':" desc
-			echo "$desc" > $1/description
-			echo "[+] updated default 'description' file for '$REPO'"
-		fi
-	else
-		read -p "description for '$REPO':" desc
-		echo "$desc" > $1/description
-		echo "[+] added missing 'description' file for '$REPO'"
+if [ "$#" -ne 2 ]; then
+	echo "invalid arguments (use -c or -d)"
+	exit 1
+elif [ "$1" = '-c' ]; then
+	if [ -d "$2.git" ]; then
+		echo "repository already exists"
+		exit 1
+	else if [ ! -f post-receive ]; then
+		echo "missing post-receive script"
+		exit 1
 	fi
-}
-
-remake_index() {
+	mkdir "$2.git"
+	git init --bare "$2.git"
+	touch "$2.git/git-daemon-export-ok"
+	ln /srv/git/git-shell-commands/post-receive "$2.git/hooks/post-receive" 
+	echo "https://git.acid.vegas/$2.git" > "$2.git/url"
+	echo "Description for '$2' repository:"
+	read desc
+	echo "$desc" > "$2.git/description"
 	echo "[~] recreating index..."
     args=""
     for category in $(cat /srv/git/*/owner | xargs -n1 | sort -u | xargs); do
@@ -24,33 +28,13 @@ remake_index() {
         args="$args -c \"$category\" $REPOS"
     done
     echo "$args" | xargs stagit-index > $HTML_DIR/index.html
-}
-
-if [ "$#" -ne 2 ]; then
-	echo "invalid arguments (use -c or -d)" >&2
-	exit 1
-fi
-
-if [ "$1" = '-c' ]; then
-	if [ -d "$2.git" ]; then
-		echo "repository already exists" >&2
-		exit 1
-	fi
-	if [ ! -f post-receive ]; then
-		echo "missing post-receive script" >&2
-		exit 1
-	fi
-	mkdir "$2.git" && git init --bare "$2.git" || exit 1
-	touch "$2.git/git-daemon-export-ok"
-	ln /srv/git/git-shell-commands/post-receive "$2.git/hooks/post-receive" || exit 1
-	echo "https://git.acid.vegas/$2.git" > "$2.git/url"
 elif [ "$1" = '-d' ]; then
 	if [ ! -d "$2.git" ]; then
-		echo "repository does not exist" >&2
+		echo "repository does not exist"
 		exit 1
 	fi
 	rm -rf "$2.git"
 else
-	echo "invalid arguments (use -c or -d)" >&2
+	echo "invalid arguments (use -c or -d)"
 	exit 1
 fi
