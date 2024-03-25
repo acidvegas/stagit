@@ -30,5 +30,4 @@ This is my personal fork of [stagit](https://codemadness.org/stagit.html) which 
 
 ___
 
-###### Mirrors
-[acid.vegas](https://git.acid.vegas/stagit) • [GitHub](https://github.com/acidvegas/stagit) • [GitLab](https://gitlab.com/acidvegas/stagit) • [SuperNETs](https://git.supernets.org/acidvegas/stagit)
+###### Mirrors for this repository: [acid.vegas](https://git.acid.vegas/stagit) • [SuperNETs](https://git.supernets.org/acidvegas/stagit) • [GitHub](https://github.com/acidvegas/stagit) • [GitLab](https://gitlab.com/acidvegas/stagit) • [Codeberg](https://codeberg.org/acidvegas/stagit)
